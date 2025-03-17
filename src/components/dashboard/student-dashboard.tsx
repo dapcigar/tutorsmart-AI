@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, BookOpen, Award, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SessionBookingModal from "@/components/session-booking-modal";
 
 export default function StudentDashboard() {
   const [activeTab, setActiveTab] = useState("upcoming");
@@ -86,7 +87,7 @@ export default function StudentDashboard() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Student Dashboard</h1>
-        <Button>Book New Session</Button>
+        <SessionBookingModal />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, CreditCard, BarChart, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SessionBookingModal from "@/components/session-booking-modal";
 
 export default function ParentDashboard() {
   // Mock data - would come from database in real implementation
@@ -104,7 +105,7 @@ export default function ParentDashboard() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Parent Dashboard</h1>
-        <Button>Book New Session</Button>
+        <SessionBookingModal />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

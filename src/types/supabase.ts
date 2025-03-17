@@ -9,6 +9,63 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      sessions: {
+        Row: {
+          created_at: string | null
+          duration: number
+          id: string
+          notes: string | null
+          session_date: string
+          start_time: string
+          status: string
+          student_id: string
+          subject: string
+          tutor_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          duration?: number
+          id?: string
+          notes?: string | null
+          session_date: string
+          start_time: string
+          status?: string
+          student_id: string
+          subject: string
+          tutor_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          duration?: number
+          id?: string
+          notes?: string | null
+          session_date?: string
+          start_time?: string
+          status?: string
+          student_id?: string
+          subject?: string
+          tutor_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_tutor_id_fkey"
+            columns: ["tutor_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -18,6 +75,7 @@ export type Database = {
           id: string
           image: string | null
           name: string | null
+          role: string | null
           token_identifier: string
           updated_at: string | null
           user_id: string | null
@@ -30,6 +88,7 @@ export type Database = {
           id: string
           image?: string | null
           name?: string | null
+          role?: string | null
           token_identifier: string
           updated_at?: string | null
           user_id?: string | null
@@ -42,6 +101,7 @@ export type Database = {
           id?: string
           image?: string | null
           name?: string | null
+          role?: string | null
           token_identifier?: string
           updated_at?: string | null
           user_id?: string | null
