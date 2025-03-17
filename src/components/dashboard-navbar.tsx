@@ -1,20 +1,32 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { createClient } from '../../supabase/client'
+import Link from "next/link";
+import { createClient } from "../../supabase/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu'
-import { Button } from './ui/button'
-import { UserCircle, Home } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import {
+  UserCircle,
+  Home,
+  Calendar,
+  BookOpen,
+  MessageSquare,
+  Settings,
+} from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function DashboardNavbar() {
-  const supabase = createClient()
-  const router = useRouter()
+  const supabase = createClient();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    return pathname === path || pathname.startsWith(`${path}/`);
+  };
 
   return (
     <nav className="w-full border-b border-gray-200 bg-white py-4">
@@ -23,6 +35,30 @@ export default function DashboardNavbar() {
           <Link href="/" prefetch className="text-xl font-bold">
             Logo
           </Link>
+          <div className="hidden md:flex items-center space-x-1">
+            <Link href="/dashboard" prefetch>
+              <Button
+                variant={
+                  isActive("/dashboard") && !isActive("/dashboard/sessions")
+                    ? "default"
+                    : "ghost"
+                }
+                className="flex items-center gap-2"
+              >
+                <Home className="h-4 w-4" />
+                Dashboard
+              </Button>
+            </Link>
+            <Link href="/dashboard/sessions" prefetch>
+              <Button
+                variant={isActive("/dashboard/sessions") ? "default" : "ghost"}
+                className="flex items-center gap-2"
+              >
+                <Calendar className="h-4 w-4" />
+                Sessions
+              </Button>
+            </Link>
+          </div>
         </div>
         <div className="flex gap-4 items-center">
           <DropdownMenu>
@@ -32,10 +68,20 @@ export default function DashboardNavbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={async () => {
-                await supabase.auth.signOut()
-                router.refresh()
-              }}>
+              <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                Dashboard
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push("/dashboard/sessions")}
+              >
+                Sessions
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  router.refresh();
+                }}
+              >
                 Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -43,5 +89,5 @@ export default function DashboardNavbar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
