@@ -50,6 +50,3 @@ CREATE POLICY "Tutors can update sessions they are teaching"
     FOR UPDATE
     TO authenticated
     USING (tutor_id = auth.uid());
-
--- Enable realtime for sessions table
-ALTER PUBLICATION supabase_realtime ADD TABLE public.sessions;
