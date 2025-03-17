@@ -23,13 +23,13 @@ export async function GET(request: Request) {
         name, 
         full_name, 
         email,
-        tutor_subjects(subject)
+        tutor_subjects(subject_id)
       `,
       )
       .eq("role", "tutor");
 
     if (subject) {
-      query = query.eq("tutor_subjects.subject", subject);
+      query = query.eq("tutor_subjects.subject_id", subject);
     }
 
     const { data, error } = await query;

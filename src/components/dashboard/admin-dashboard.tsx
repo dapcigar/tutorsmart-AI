@@ -147,7 +147,12 @@ export default function AdminDashboard() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="font-semibold">Tutor Management</h3>
-              <Button size="sm">Add New Tutor</Button>
+              <Button
+                size="sm"
+                onClick={() => (window.location.href = "/dashboard/tutors")}
+              >
+                Add New Tutor
+              </Button>
             </div>
             {tutors.map((tutor) => (
               <Card key={tutor.id} className="p-4">
@@ -167,7 +172,14 @@ export default function AdminDashboard() {
                     <p className="text-gray-600 mt-1">
                       Joined: {new Date(tutor.joinDate).toLocaleDateString()}
                     </p>
-                    <Button variant="outline" size="sm" className="mt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() =>
+                        (window.location.href = "/dashboard/tutors")
+                      }
+                    >
                       Manage
                     </Button>
                   </div>
@@ -181,7 +193,12 @@ export default function AdminDashboard() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="font-semibold">Student Management</h3>
-              <Button size="sm">Add New Student</Button>
+              <Button
+                size="sm"
+                onClick={() => (window.location.href = "/dashboard/students")}
+              >
+                Add New Student
+              </Button>
             </div>
             {students.map((student) => (
               <Card key={student.id} className="p-4">
@@ -197,7 +214,14 @@ export default function AdminDashboard() {
                     <p className="text-gray-600">
                       Joined: {new Date(student.joinDate).toLocaleDateString()}
                     </p>
-                    <Button variant="outline" size="sm" className="mt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() =>
+                        (window.location.href = "/dashboard/students")
+                      }
+                    >
                       View Details
                     </Button>
                   </div>

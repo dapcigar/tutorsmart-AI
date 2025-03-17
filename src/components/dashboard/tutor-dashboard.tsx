@@ -96,7 +96,12 @@ export default function TutorDashboard() {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Tutor Dashboard</h1>
         <div className="flex gap-3">
-          <Button variant="outline">Update Availability</Button>
+          <Button
+            variant="outline"
+            onClick={() => (window.location.href = "/dashboard/availability")}
+          >
+            Update Availability
+          </Button>
           <SessionBookingModal />
         </div>
       </div>
@@ -162,7 +167,13 @@ export default function TutorDashboard() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="font-semibold">Upcoming Sessions</h3>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  (window.location.href = "/dashboard/availability")
+                }
+              >
                 View Calendar
               </Button>
             </div>
@@ -217,7 +228,12 @@ export default function TutorDashboard() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="font-semibold">Your Teaching Plans</h3>
-              <Button size="sm">Create New Plan</Button>
+              <Button
+                size="sm"
+                onClick={() => (window.location.href = "/dashboard/ai")}
+              >
+                Create New Plan
+              </Button>
             </div>
             {teachingPlans.map((plan) => (
               <Card key={plan.id} className="p-4">

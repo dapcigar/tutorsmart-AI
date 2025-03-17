@@ -16,6 +16,10 @@ import {
   BookOpen,
   MessageSquare,
   Settings,
+  Brain,
+  Clock,
+  Users,
+  GraduationCap,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -58,6 +62,26 @@ export default function DashboardNavbar() {
                 Sessions
               </Button>
             </Link>
+            <Link href="/dashboard/availability" prefetch>
+              <Button
+                variant={
+                  isActive("/dashboard/availability") ? "default" : "ghost"
+                }
+                className="flex items-center gap-2"
+              >
+                <Clock className="h-4 w-4" />
+                Availability
+              </Button>
+            </Link>
+            <Link href="/dashboard/ai" prefetch>
+              <Button
+                variant={isActive("/dashboard/ai") ? "default" : "ghost"}
+                className="flex items-center gap-2"
+              >
+                <Brain className="h-4 w-4" />
+                AI Tools
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="flex gap-4 items-center">
@@ -75,6 +99,19 @@ export default function DashboardNavbar() {
                 onClick={() => router.push("/dashboard/sessions")}
               >
                 Sessions
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push("/dashboard/availability")}
+              >
+                Availability
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/dashboard/ai")}>
+                AI Tools
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push("/dashboard/progress")}
+              >
+                Progress
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={async () => {
