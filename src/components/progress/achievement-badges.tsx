@@ -155,28 +155,3 @@ export function AchievementBadges({ studentId }: AchievementBadgesProps = {}) {
                   <p className="text-gray-600 text-sm mb-2">
                     {badge.description}
                   </p>
-                  {badge.progress !== undefined && (
-                    <div className="w-full mt-2">
-                      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-blue-500 rounded-full"
-                          style={{
-                            width: `${(badge.progress / parseInt(badge.description.match(/\d+/)![0])) * 100}%`,
-                          }}
-                        />
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">
-                        Progress: {badge.progress}/
-                        {badge.description.match(/\d+/)![0]}
-                      </p>
-                    </div>
-                  )}
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
