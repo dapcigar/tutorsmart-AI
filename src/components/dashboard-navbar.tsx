@@ -82,6 +82,15 @@ export default function DashboardNavbar() {
                 AI Tools
               </Button>
             </Link>
+            <Link href="/dashboard/children" prefetch>
+              <Button
+                variant={isActive("/dashboard/children") ? "default" : "ghost"}
+                className="flex items-center gap-2"
+              >
+                <Users className="h-4 w-4" />
+                My Children
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="flex gap-4 items-center">
@@ -112,6 +121,11 @@ export default function DashboardNavbar() {
                 onClick={() => router.push("/dashboard/progress")}
               >
                 Progress
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push("/dashboard/children")}
+              >
+                My Children
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={async () => {

@@ -3,9 +3,16 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, CreditCard, BarChart, MessageSquare } from "lucide-react";
+import {
+  Calendar,
+  CreditCard,
+  BarChart,
+  MessageSquare,
+  Users,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SessionBookingModal from "@/components/session-booking-modal";
+import Link from "next/link";
 
 export default function ParentDashboard() {
   // Mock data - would come from database in real implementation
@@ -137,8 +144,10 @@ export default function ParentDashboard() {
             </div>
 
             <div className="flex justify-between">
-              <Button variant="outline" size="sm">
-                View Progress
+              <Button variant="outline" size="sm" asChild>
+                <Link href={`/dashboard/progress?student_id=${child.id}`}>
+                  View Progress
+                </Link>
               </Button>
               <Button variant="outline" size="sm">
                 Contact Tutors
@@ -146,6 +155,16 @@ export default function ParentDashboard() {
             </div>
           </Card>
         ))}
+        <Card className="p-6 flex flex-col items-center justify-center border-dashed">
+          <Users className="h-12 w-12 text-gray-400 mb-4" />
+          <h3 className="text-xl font-semibold mb-2">Add a Child</h3>
+          <p className="text-gray-600 mb-4 text-center">
+            Link your child's account to manage their tutoring sessions
+          </p>
+          <Button asChild>
+            <Link href="/dashboard/children?tab=add">Add Child</Link>
+          </Button>
+        </Card>
       </div>
 
       <Tabs defaultValue="sessions" className="w-full">

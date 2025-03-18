@@ -16,6 +16,7 @@ import {
   Trophy,
   Target,
 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 interface Badge {
   id: string;
