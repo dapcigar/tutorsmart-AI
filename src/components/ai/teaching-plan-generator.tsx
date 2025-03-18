@@ -64,19 +64,33 @@ export function TeachingPlanGenerator({
 
     setLoading(true);
 
-    // Simulate API call to AI service
-    setTimeout(() => {
-      // Mock response - in a real app, this would come from an AI API
-      const mockPlan = `# ${topic} - Teaching Plan\n\n## Learning Objectives\n- Understand key concepts of ${topic}\n- Apply ${topic} principles to solve problems\n- Analyze and evaluate ${topic} scenarios\n\n## Lesson Structure (60 minutes)\n1. Introduction (10 min)\n   - Brief overview of ${topic}\n   - Connect to previous knowledge\n\n2. Main Concepts (20 min)\n   - Explanation of core principles\n   - Visual aids and examples\n\n3. Guided Practice (15 min)\n   - Worked examples\n   - Step-by-step problem solving\n\n4. Independent Practice (10 min)\n   - Student exercises\n   - Application problems\n\n5. Assessment & Conclusion (5 min)\n   - Quick check for understanding\n   - Summary of key points\n\n## Resources\n- Interactive simulations\n- Practice worksheets\n- Visual aids\n\n## Differentiation Strategies\n- For struggling students: Simplified examples, additional visual aids\n- For advanced students: Challenge problems, extension activities`;
+    try {
+      // Call our edge function to generate the teaching plan
+      const response = await fetch("/api/ai/teaching-plan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subject: selectedSubject,
+          topic,
+          studentLevel,
+        }),
+      });
 
-      setGeneratedPlan(mockPlan);
-      setLoading(false);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to generate teaching plan");
+      }
+
+      setGeneratedPlan(data.plan.content);
 
       if (onPlanGenerated) {
         onPlanGenerated({
           title: topic,
           subject: selectedSubject,
-          content: mockPlan,
+          content: data.plan.content,
           aiGenerated: true,
           createdAt: new Date().toISOString(),
         });
@@ -86,7 +100,16 @@ export function TeachingPlanGenerator({
         title: "Plan generated",
         description: "Your teaching plan has been created successfully",
       });
-    }, 2000);
+    } catch (error: any) {
+      console.error("Error generating teaching plan:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to generate teaching plan",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

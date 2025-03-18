@@ -41,11 +41,13 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
     { id: "4", day: "Friday", startTime: "13:00", endTime: "18:00" },
   ]);
   const [newSlot, setNewSlot] = useState<Partial<TimeSlot>>({
-    day: "",
-    startTime: "",
-    endTime: "",
+    day: "Monday",
+    startTime: "09:00",
+    endTime: "10:00",
   });
   const [repeatWeekly, setRepeatWeekly] = useState(true);
+  const [customStartTime, setCustomStartTime] = useState("08:00");
+  const [customEndTime, setCustomEndTime] = useState("10:00");
   const { toast } = useToast();
 
   const days = [
@@ -66,7 +68,11 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
   }
 
   const handleAddTimeSlot = () => {
-    if (!newSlot.day || !newSlot.startTime || !newSlot.endTime) {
+    const day = newSlot.day || "Monday";
+    const startTime = newSlot.startTime || "09:00";
+    const endTime = newSlot.endTime || "10:00";
+
+    if (!day || !startTime || !endTime) {
       toast({
         title: "Missing information",
         description: "Please select day, start time, and end time",
@@ -85,8 +91,8 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
     }
 
     const newId = Math.random().toString(36).substring(2, 9);
-    setTimeSlots([...timeSlots, { id: newId, ...(newSlot as TimeSlot) }]);
-    setNewSlot({ day: "", startTime: "", endTime: "" });
+    setTimeSlots([...timeSlots, { id: newId, day, startTime, endTime }]);
+    setNewSlot({ day: "Monday", startTime: "09:00", endTime: "10:00" });
 
     toast({
       title: "Time slot added",
@@ -130,7 +136,7 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
                 <Label>Add New Time Slot</Label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <Select
-                    value={newSlot.day}
+                    value={newSlot.day || "Monday"}
                     onValueChange={(value) =>
                       setNewSlot({ ...newSlot, day: value })
                     }
@@ -148,7 +154,7 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
                   </Select>
 
                   <Select
-                    value={newSlot.startTime}
+                    value={newSlot.startTime || "09:00"}
                     onValueChange={(value) =>
                       setNewSlot({ ...newSlot, startTime: value })
                     }
@@ -166,7 +172,7 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
                   </Select>
 
                   <Select
-                    value={newSlot.endTime}
+                    value={newSlot.endTime || "10:00"}
                     onValueChange={(value) =>
                       setNewSlot({ ...newSlot, endTime: value })
                     }
@@ -255,13 +261,7 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
 
               {selectedDate && (
                 <div className="space-y-3">
-                  <h4 className="font-medium">
-                    {selectedDate.toLocaleDateString(undefined, {
-                      weekday: "long",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </h4>
+                  <h4 className="font-medium">{selectedDate.toDateString()}</h4>
 
                   <div className="flex items-center space-x-2">
                     <Checkbox id="unavailable" />
@@ -276,7 +276,11 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
                   <div className="space-y-2">
                     <Label>Custom Hours (Optional)</Label>
                     <div className="grid grid-cols-2 gap-2">
-                      <Select>
+                      <Select
+                        value={customStartTime}
+                        onValueChange={setCustomStartTime}
+                        defaultValue="08:00"
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Start time" />
                         </SelectTrigger>
@@ -292,7 +296,11 @@ export function TutorAvailability({ tutorId }: { tutorId?: string }) {
                         </SelectContent>
                       </Select>
 
-                      <Select>
+                      <Select
+                        value={customEndTime}
+                        onValueChange={setCustomEndTime}
+                        defaultValue="10:00"
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="End time" />
                         </SelectTrigger>

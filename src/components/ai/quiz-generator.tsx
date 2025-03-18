@@ -75,57 +75,48 @@ export function QuizGenerator({
 
     setLoading(true);
 
-    // Simulate API call to AI service
-    setTimeout(() => {
-      // Mock response - in a real app, this would come from an AI API
-      const mockQuiz = {
-        title: `${topic} Quiz`,
-        subject: selectedSubject,
-        questions: [],
-      };
+    try {
+      // Call our edge function to generate the quiz
+      const response = await fetch("/api/ai/quiz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subject: selectedSubject,
+          topic,
+          questionCount: parseInt(questionCount),
+          includeMultipleChoice,
+          includeShortAnswer,
+        }),
+      });
 
-      const count = parseInt(questionCount);
-      const mcCount = includeMultipleChoice ? Math.ceil(count / 2) : 0;
-      const saCount = includeShortAnswer ? count - mcCount : count;
+      const data = await response.json();
 
-      // Generate multiple choice questions
-      for (let i = 0; i < mcCount; i++) {
-        mockQuiz.questions.push({
-          id: `mc-${i}`,
-          type: "multiple-choice",
-          text: `Sample multiple choice question about ${topic} (#${i + 1})`,
-          options: [
-            { id: "a", text: "Answer option A" },
-            { id: "b", text: "Answer option B" },
-            { id: "c", text: "Answer option C" },
-            { id: "d", text: "Answer option D" },
-          ],
-          correctAnswer: "b",
-        });
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to generate quiz");
       }
 
-      // Generate short answer questions
-      for (let i = 0; i < saCount; i++) {
-        mockQuiz.questions.push({
-          id: `sa-${i}`,
-          type: "short-answer",
-          text: `Sample short answer question about ${topic} (#${i + 1})`,
-          sampleAnswer: `This is a sample answer for the question about ${topic}.`,
-        });
-      }
-
-      setGeneratedQuiz(mockQuiz);
-      setLoading(false);
+      setGeneratedQuiz(data.quiz);
 
       if (onQuizGenerated) {
-        onQuizGenerated(mockQuiz);
+        onQuizGenerated(data.quiz);
       }
 
       toast({
         title: "Quiz generated",
-        description: `Your quiz with ${count} questions has been created successfully`,
+        description: `Your quiz with ${data.quiz.questions.length} questions has been created successfully`,
       });
-    }, 2000);
+    } catch (error: any) {
+      console.error("Error generating quiz:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to generate quiz",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
